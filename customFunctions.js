@@ -1,20 +1,42 @@
 function customMap(array, callback){
-  return array.map(callback)
+  const result = []
+
+  for (let i = 0; i < array.length; i++){
+    result.push(callback(array[i]))
+  }
+
+  return result
 }
 
 function customReduce(array, callback, initialValue = undefined){
-  if(initialValue !== undefined){
-    return array.reduce(callback, initialValue)
+  let accumulator = initialValue !== undefined ? initialValue : array[0]
+  const startIndex = initialValue !== undefined ? 0 : 1
+
+  // acumular os elementos
+  for(let i = startIndex; i < array.length; i++){
+      accumulator = callback(accumulator, array[i])
   }
-  return array.reduce(callback)  
+
+  return accumulator
 }
 
 function customFilter(array, callback){
-  return array.filter(callback)
+  const result = []
+
+  for(let i = 0; i < array.length; i++){
+    const passesFilter = callback(array[i], i, array)
+    if(passesFilter){
+      result.push(array[i])
+    }
+  }
+
+  return result
 }
 
 function customForEach(array, callback){
-  return array.forEach(callback)
+  for(let i = 0; i < array.length; i++){
+    callback(array[i], i, array)
+  }
 }
 
 module.exports = {
